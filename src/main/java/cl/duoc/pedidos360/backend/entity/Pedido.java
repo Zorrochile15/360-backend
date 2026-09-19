@@ -29,9 +29,8 @@ public class Pedido {
     private LocalDateTime fechaCreacion;
 
     @Column(nullable = false, length = 50)
-    private String estado; // Ej: PENDIENTE, APROBADO, EN_DESPACHO, ENTREGADO
+    private String estado; 
 
-    // Relación: Muchos pedidos pertenecen a un Local
     @ManyToOne
     @JoinColumn(name = "local_id", nullable = false)
     private Local local;
