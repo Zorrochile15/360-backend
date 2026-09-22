@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.pedidos360.backend.entity.Pedido;
@@ -26,13 +27,32 @@ public class PedidoController {
 
     @GetMapping("/admin/pedidos")
     public ResponseEntity<List<Pedido>> getAllPedidos() {
-        return new ResponseEntity<>(pedidoRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(
+            pedidoRepository.findAll(),
+            HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/locales/pedidos")
+    public ResponseEntity<List<Pedido>> getPedidosByLocal(
+        @RequestParam Long localId
+    ) {
+        return new ResponseEntity<>(
+            pedidoRepository.findByLocalId(localId),
+            HttpStatus.OK
+        );
     }
 
     @PostMapping("/locales/pedidos")
-    public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
+    public ResponseEntity<Pedido> createPedido(
+        @RequestBody Pedido pedido
+    ) {
         pedido.setFechaCreacion(LocalDateTime.now());
         pedido.setEstado("PENDIENTE");
-        return new ResponseEntity<>(pedidoRepository.save(pedido), HttpStatus.CREATED);
+
+        return new ResponseEntity<>(
+            pedidoRepository.save(pedido),
+            HttpStatus.CREATED
+        );
     }
 }
